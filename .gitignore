@@ -1,4 +1,6 @@
-# This .gitignore file is designed for Java projects using common IDEs.
+# ----------------------------------------
+# .gitignore for Java Projects with Common IDEs and Tools
+# ----------------------------------------
 
 ### IDE Specific Files ###
 
@@ -6,16 +8,20 @@
 .idea/
 *.iml
 out/
+!**/src/main/**/out/
+!**/src/test/**/out/
 
 # Eclipse
+.apt_generated/
 .classpath
+.factorypath
 .project
 .settings/
-bin/
-.apt_generated/
-.factorypath
 .springBeans
 .sts4-cache/
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
 
 # NetBeans
 /nbproject/private/
@@ -27,14 +33,50 @@ bin/
 # VS Code
 .vscode/
 
+### Build Tools ###
+
+# Maven
+target/
+.mvn/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Gradle
+.gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+gradle-app.setting
+
+# Ant
+build.xml
+nb-configuration.xml
+
+### Dependency Caches ###
+.m2/
+.mvn/
+~$pom.xml
+
 ### Operating System Specific Files ###
 
 # macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
 
 ### Compiled and Binary Files ###
 
-# Java compiled output
 *.class
 *.jar
 *.war
@@ -43,26 +85,49 @@ bin/
 *.zip
 *.tar.gz
 *.rar
+*.exe
+*.dll
+*.so
+*.dylib
+*.bin
+*.deb
+*.rpm
 
 ### Log Files ###
 *.log
 
 ### Temporary and Miscellaneous Files ###
 
-# BlueJ files
+# BlueJ
 *.ctxt
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Virtual machine crash logs
+# Crash Logs
 hs_err_pid*
 replay_pid*
 
-# Maven/Gradle build directories (common)
-target/
-build/
+# Java Flight Recorder files
+*.jfr
 
-# Package managers
-.gradle/
-.m2/
+# Lombok delomboked code
+delombok/
+
+# Test result files
+test-output/
+
+# Coverage reports
+coverage/
+jacoco.exec
+
+# IDE-specific working directories (sometimes created)
+.idea_modules/
+
+# Local environment overrides
+.env
+.env.*
+
+# VS Code extensions workspace storage
+.history/
+
