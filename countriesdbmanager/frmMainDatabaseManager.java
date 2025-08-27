@@ -15,35 +15,40 @@ import javax.swing.table.TableRowSorter;
  * @author suleymanov
  */
 public class frmMainDatabaseManager extends javax.swing.JFrame {
-	
+
 	private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frmMainDatabaseManager.class.getName());
 
 	/**
 	 * Creates new form frmMainDatabaseManager
 	 */
 	DefaultTableModel model = new DefaultTableModel();
-		
+
 	public frmMainDatabaseManager() {
 		initComponents();
-		ArrayList<Country> countries= getCountry();
+		refreshTableCountries();
+	}
+	public  void refreshTableCountries(){
 		model = (DefaultTableModel) tblCountries.getModel();
-		for(Country country : countries){
+		model.setRowCount(0);
+		ArrayList<Country> countries = getCountry();
+		
+		for (Country country : countries) {
 			Object[] row = {country.getCountry_id(), country.getName(), country.getContinent(), country.getRegion(), country.getPopulation(), country.getCapital()};
 			model.addRow(row);
 		}
 	}
-	
-	public ArrayList<Country> getCountry(){
+
+	public ArrayList<Country> getCountry() {
 		DbHelper helper = new DbHelper();
 		ResultSet resultSet;
 		ArrayList<Country> countries = null;
-		
-		try(Connection connection = helper.getConnection()) {
+
+		try (Connection connection = helper.getConnection()) {
 			Statement statment = null;
-			statment  = connection.createStatement();
+			statment = connection.createStatement();
 			resultSet = statment.executeQuery("SELECT * FROM countries");
 			countries = new ArrayList<>();
-			while(resultSet.next()) {
+			while (resultSet.next()) {
 				countries.add(new Country(
 					resultSet.getInt("country_id"),
 					resultSet.getString("name"),
@@ -52,13 +57,12 @@ public class frmMainDatabaseManager extends javax.swing.JFrame {
 					resultSet.getInt("population"),
 					resultSet.getString("capital")
 				));
-			} 
-		}catch(SQLException exception){
+			}
+		} catch (SQLException exception) {
 			helper.showErrorMessage(exception);
 		}
 		return countries;
 	}
-	
 
 	/**
 	 * This method is called from within the constructor to initialize the
@@ -72,10 +76,23 @@ public class frmMainDatabaseManager extends javax.swing.JFrame {
                 jScrollPane1 = new javax.swing.JScrollPane();
                 tblCountries = new javax.swing.JTable();
                 lblSearch = new javax.swing.JLabel();
-                txtSearch = new javax.swing.JTextField();
+                tbxSearch = new javax.swing.JTextField();
+                lblName = new javax.swing.JLabel();
+                txbName = new javax.swing.JTextField();
+                txbContinent = new javax.swing.JTextField();
+                lblContinent = new javax.swing.JLabel();
+                txbRegion = new javax.swing.JTextField();
+                txbPopulation = new javax.swing.JTextField();
+                lblPopulation = new javax.swing.JLabel();
+                lblRegion = new javax.swing.JLabel();
+                txbCapital = new javax.swing.JTextField();
+                lblCapital = new javax.swing.JLabel();
+                btnAdd = new javax.swing.JToggleButton();
+                btnRfresh = new javax.swing.JToggleButton();
 
                 setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+                tblCountries.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
                 tblCountries.setModel(new javax.swing.table.DefaultTableModel(
                         new Object [][] {
 
@@ -102,12 +119,74 @@ public class frmMainDatabaseManager extends javax.swing.JFrame {
                 jScrollPane1.setViewportView(tblCountries);
 
                 lblSearch.setBackground(new java.awt.Color(51, 51, 51));
+                lblSearch.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
                 lblSearch.setText("Search:");
-                lblSearch.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+                lblSearch.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-                txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+                tbxSearch.addKeyListener(new java.awt.event.KeyAdapter() {
                         public void keyReleased(java.awt.event.KeyEvent evt) {
-                                txtSearchKeyReleased(evt);
+                                tbxSearchKeyReleased(evt);
+                        }
+                });
+
+                lblName.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+                lblName.setText("Name: ");
+
+                txbName.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                txbNameActionPerformed(evt);
+                        }
+                });
+
+                txbContinent.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                txbContinentActionPerformed(evt);
+                        }
+                });
+
+                lblContinent.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+                lblContinent.setText("Continent:");
+
+                txbRegion.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                txbRegionActionPerformed(evt);
+                        }
+                });
+
+                txbPopulation.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                txbPopulationActionPerformed(evt);
+                        }
+                });
+
+                lblPopulation.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+                lblPopulation.setText("Population:");
+
+                lblRegion.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+                lblRegion.setText("Region:");
+
+                txbCapital.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                txbCapitalActionPerformed(evt);
+                        }
+                });
+
+                lblCapital.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+                lblCapital.setText("Capital: ");
+
+                btnAdd.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+                btnAdd.setText("add");
+                btnAdd.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                btnAddActionPerformed(evt);
+                        }
+                });
+
+                btnRfresh.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+                btnRfresh.setText("refresh");
+                btnRfresh.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                btnRfreshActionPerformed(evt);
                         }
                 });
 
@@ -116,36 +195,137 @@ public class frmMainDatabaseManager extends javax.swing.JFrame {
                 layout.setHorizontalGroup(
                         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(134, 134, 134)
+                                .addGap(22, 22, 22)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(lblSearch)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtSearch))
+                                                .addComponent(tbxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(btnRfresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 785, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(136, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txbName, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(lblContinent, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txbContinent, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(lblRegion, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txbRegion, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(lblPopulation, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txbPopulation, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(lblCapital, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txbCapital, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(40, Short.MAX_VALUE))
                 );
                 layout.setVerticalGroup(
                         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap(103, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(tbxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnRfresh))
                                 .addGap(18, 18, 18)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(txbName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(lblContinent, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(txbContinent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(lblRegion, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(txbRegion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(lblPopulation, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(txbPopulation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(lblCapital, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(txbCapital, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(btnAdd))
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(16, Short.MAX_VALUE))
                 );
 
                 pack();
         }// </editor-fold>//GEN-END:initComponents
 
-        private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
-	String searchKey = txtSearch.getText();
-	TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<DefaultTableModel>(model);
-	tblCountries.setRowSorter(tableRowSorter);
-	tableRowSorter.setRowFilter(RowFilter.regexFilter(searchKey));
-        }//GEN-LAST:event_txtSearchKeyReleased
+        private void tbxSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbxSearchKeyReleased
+		String searchKey = tbxSearch.getText();
+		TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(model);
+		tblCountries.setRowSorter(tableRowSorter);
+		tableRowSorter.setRowFilter(RowFilter.regexFilter(searchKey));
+        }//GEN-LAST:event_tbxSearchKeyReleased
+
+        private void txbNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txbNameActionPerformed
+
+        }//GEN-LAST:event_txbNameActionPerformed
+
+        private void txbContinentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txbContinentActionPerformed
+
+        }//GEN-LAST:event_txbContinentActionPerformed
+
+        private void txbRegionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txbRegionActionPerformed
+
+        }//GEN-LAST:event_txbRegionActionPerformed
+
+        private void txbPopulationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txbPopulationActionPerformed
+
+        }//GEN-LAST:event_txbPopulationActionPerformed
+
+        private void txbCapitalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txbCapitalActionPerformed
+
+        }//GEN-LAST:event_txbCapitalActionPerformed
+
+        private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+		DbHelper helper = new DbHelper();
+		PreparedStatement preparedStatement = null;
+		Connection connection = null;
+
+		try {
+			String sql = "INSERT INTO countries (name, continent, region, population, capital) VALUES (?, ?, ?, ?, ?) ";
+			connection = helper.getConnection();
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, txbName.getText());
+			preparedStatement.setString(2, txbContinent.getText());
+			preparedStatement.setString(3, txbRegion.getText());
+			preparedStatement.setInt(4, Integer.parseInt(txbPopulation.getText()));
+			preparedStatement.setString(5, txbCapital.getText());
+			preparedStatement.executeUpdate();
+			refreshTableCountries();
+		} catch (SQLException exception) {
+			helper.showErrorMessage(exception);
+		} finally {
+			 try {
+				if (preparedStatement != null) preparedStatement.close();
+				if (connection != null) connection.close();
+			 } catch (SQLException e) {
+				 helper.showErrorMessage(e);
+			}
+		}
+        }//GEN-LAST:event_btnAddActionPerformed
+
+        private void btnRfreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRfreshActionPerformed
+	refreshTableCountries();
+        }//GEN-LAST:event_btnRfreshActionPerformed
 
 	/**
 	 * @param args the command line arguments
@@ -173,9 +353,21 @@ public class frmMainDatabaseManager extends javax.swing.JFrame {
 	}
 
         // Variables declaration - do not modify//GEN-BEGIN:variables
+        private javax.swing.JToggleButton btnAdd;
+        private javax.swing.JToggleButton btnRfresh;
         private javax.swing.JScrollPane jScrollPane1;
+        private javax.swing.JLabel lblCapital;
+        private javax.swing.JLabel lblContinent;
+        private javax.swing.JLabel lblName;
+        private javax.swing.JLabel lblPopulation;
+        private javax.swing.JLabel lblRegion;
         private javax.swing.JLabel lblSearch;
         private javax.swing.JTable tblCountries;
-        private javax.swing.JTextField txtSearch;
+        private javax.swing.JTextField tbxSearch;
+        private javax.swing.JTextField txbCapital;
+        private javax.swing.JTextField txbContinent;
+        private javax.swing.JTextField txbName;
+        private javax.swing.JTextField txbPopulation;
+        private javax.swing.JTextField txbRegion;
         // End of variables declaration//GEN-END:variables
 }
