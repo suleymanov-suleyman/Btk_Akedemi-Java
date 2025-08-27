@@ -1,2 +1,2 @@
-# Btk_Akedemi-Java
-Btk akedemi java ile programlamaya giriş eğitimindeki derslerde verilen ödevlere dayanaraktan kendi yazdığım kodlar
+Java Mini Projects
+İzlediğim eğitimlere dayanaraktan kendi yazdığım yazdığım mini projeler
