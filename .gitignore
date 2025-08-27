@@ -1,0 +1,133 @@
+# ----------------------------------------
+# .gitignore for Java Projects with Common IDEs and Tools
+# ----------------------------------------
+
+### IDE Specific Files ###
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+# Eclipse
+.apt_generated/
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache/
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
+
+### Build Tools ###
+
+# Maven
+target/
+.mvn/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Gradle
+.gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+gradle-app.setting
+
+# Ant
+build.xml
+nb-configuration.xml
+
+### Dependency Caches ###
+.m2/
+.mvn/
+~$pom.xml
+
+### Operating System Specific Files ###
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+### Compiled and Binary Files ###
+
+*.class
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.exe
+*.dll
+*.so
+*.dylib
+*.bin
+*.deb
+*.rpm
+
+### Log Files ###
+*.log
+
+### Temporary and Miscellaneous Files ###
+
+# BlueJ
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Crash Logs
+hs_err_pid*
+replay_pid*
+
+# Java Flight Recorder files
+*.jfr
+
+# Lombok delomboked code
+delombok/
+
+# Test result files
+test-output/
+
+# Coverage reports
+coverage/
+jacoco.exec
+
+# IDE-specific working directories (sometimes created)
+.idea_modules/
+
+# Local environment overrides
+.env
+.env.*
+
+# VS Code extensions workspace storage
+.history/
+
